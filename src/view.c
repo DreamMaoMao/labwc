@@ -263,11 +263,11 @@ matches_criteria(struct view *view, enum lab_view_criteria criteria)
 			return false;
 		}
 	}
-    if (criteria & LAB_VIEW_CRITERIA_NO_OMNIPRESENT) {
-        if (view->visible_on_all_workspaces) {
-            return false;
-        }
-    }
+	if (criteria & LAB_VIEW_CRITERIA_NO_OMNIPRESENT) {
+		if (view->visible_on_all_workspaces) {
+			return false;
+		}
+	}
 	return true;
 }
 

@@ -272,70 +272,70 @@ get_next(struct workspace *current, struct wl_list *workspaces, bool wrap)
 static bool
 workspace_has_views(struct workspace *workspace, struct server *server)
 {
-    struct view *view;
+	struct view *view;
 
-    for_each_view(view, &server->views, LAB_VIEW_CRITERIA_NO_OMNIPRESENT) {
-        if (view->workspace == workspace) {
-            return true;
-        }
-    }
-    return false;
+	for_each_view(view, &server->views, LAB_VIEW_CRITERIA_NO_OMNIPRESENT) {
+		if (view->workspace == workspace) {
+			return true;
+		}
+	}
+	return false;
 }
 
 static struct workspace *
 get_adjacent_occupied(struct workspace *current, struct wl_list *workspaces,
-                     bool wrap, bool reverse)
+		bool wrap, bool reverse)
 {
-    struct server *server = current->server;
-    struct wl_list *start = &current->link;
-    struct wl_list *link = reverse ? start->prev : start->next;
-    bool has_wrapped = false;
+	struct server *server = current->server;
+	struct wl_list *start = &current->link;
+	struct wl_list *link = reverse ? start->prev : start->next;
+	bool has_wrapped = false;
 
-    while (true) {
-        /* Handle list boundaries */
-        if (link == workspaces) {
-            if (!wrap) {
-                break;  // No wrapping allowed - stop searching
-            }
-            if (has_wrapped) {
-                break;  // Already wrapped once - stop to prevent infinite loop
-            }
-            /* Wrap around */
-            link = reverse ? workspaces->prev : workspaces->next;
-            has_wrapped = true;
-            continue;
-        }
+	while (true) {
+		/* Handle list boundaries */
+		if (link == workspaces) {
+			if (!wrap) {
+				break;  /* No wrapping allowed - stop searching */
+			}
+			if (has_wrapped) {
+				break;  /* Already wrapped once - stop to prevent infinite loop */
+			}
+			/* Wrap around */
+			link = reverse ? workspaces->prev : workspaces->next;
+			has_wrapped = true;
+			continue;
+		}
 
-        /* Get the workspace */
-        struct workspace *target = wl_container_of(link, target, link);
+		/* Get the workspace */
+		struct workspace *target = wl_container_of(link, target, link);
 
-        /* Check if we've come full circle */
-        if (link == start) {
-            break;
-        }
+		/* Check if we've come full circle */
+		if (link == start) {
+			break;
+		}
 
-        /* Check if it's occupied (and not current) */
-        if (target != current && workspace_has_views(target, server)) {
-            return target;
-        }
+		/* Check if it's occupied (and not current) */
+		if (target != current && workspace_has_views(target, server)) {
+			return target;
+		}
 
-        /* Move to next/prev */
-        link = reverse ? link->prev : link->next;
-    }
+		/* Move to next/prev */
+		link = reverse ? link->prev : link->next;
+	}
 
-    return NULL;  // No occupied workspace found
+	return NULL;  /* No occupied workspace found */
 }
 
 static struct workspace *
 get_prev_occupied(struct workspace *current, struct wl_list *workspaces, bool wrap)
 {
-    return get_adjacent_occupied(current, workspaces, wrap, true);
+	return get_adjacent_occupied(current, workspaces, wrap, true);
 }
 
 static struct workspace *
 get_next_occupied(struct workspace *current, struct wl_list *workspaces, bool wrap)
 {
-    return get_adjacent_occupied(current, workspaces, wrap, false);
+	return get_adjacent_occupied(current, workspaces, wrap, false);
 }
 
 static int
