@@ -137,8 +137,6 @@ xwayland_view_wants_focus(struct view *view)
 			wlr_xwayland_surface_has_window_type(xsurface,
 				WLR_XWAYLAND_NET_WM_WINDOW_TYPE_SPLASH) ||
 			wlr_xwayland_surface_has_window_type(xsurface,
-				WLR_XWAYLAND_NET_WM_WINDOW_TYPE_DESKTOP) ||
-			wlr_xwayland_surface_has_window_type(xsurface,
 				WLR_XWAYLAND_NET_WM_WINDOW_TYPE_TOOLTIP) ||
 			wlr_xwayland_surface_has_window_type(xsurface,
 				WLR_XWAYLAND_NET_WM_WINDOW_TYPE_UTILITY)) {
